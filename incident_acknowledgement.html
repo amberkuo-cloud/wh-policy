@@ -459,7 +459,7 @@
 </div>
 
 <script>
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwOxAdofkBLANuNFWefduQxD8cMzumvbge8ss0lBeB7Z1Y3fiTry7l4__TNr_faNYqkRg/exec';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyMPJWyIBUm9dMUVZrRxPsbkze4ujqAT0fW7FpCXT4y8PYbCWhzpZDQKSZ7vcwNyca6zA/exec';
 
 const nameEl = document.getElementById('name');
 const empidEl = document.getElementById('empid');
@@ -565,32 +565,24 @@ submitBtn.addEventListener('click', () => {
     signature: sigCanvas.toDataURL('image/png')
   };
 
-  const iframe = document.createElement('iframe');
-  iframe.name = 'hidden_iframe';
-  iframe.style.display = 'none';
-  document.body.appendChild(iframe);
+  const params = new URLSearchParams({
+    name: payload.name,
+    empid: payload.empid,
+    dept: payload.dept,
+    emptype: payload.emptype,
+    ackdate: payload.ackdate,
+    signature: payload.signature
+  });
 
-  const form = document.createElement('form');
-  form.method = 'POST';
-  form.action = SHEET_URL;
-  form.target = 'hidden_iframe';
-
-  const input = document.createElement('input');
-  input.type = 'hidden';
-  input.name = 'data';
-  input.value = JSON.stringify(payload);
-  form.appendChild(input);
-  document.body.appendChild(form);
-
-  setTimeout(() => {
+  const img = new Image();
+  img.src = SHEET_URL + '?' + params.toString();
+  img.onload = img.onerror = () => {
     document.getElementById('formCard').style.display = 'none';
     document.getElementById('successName').textContent = payload.name + '（' + payload.empid + '）— ' + payload.dept + ' · ' + payload.emptype;
     document.getElementById('successDept').textContent = '部門 / Dept：' + payload.dept;
     document.getElementById('successTs').textContent = '簽收日期 ' + payload.ackdate + '  ·  Safety Management & Incident SOP';
     document.getElementById('successCard').style.display = 'block';
-  }, 2000);
-
-  form.submit();
+  };
 });
 </script>
 </body>
