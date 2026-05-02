@@ -427,14 +427,14 @@
       </label>
     </div>
 
-    <div style="margin-bottom:1.25rem;">
-      <span class="sig-label">本人簽名 <span>/ Signature</span></span>
-      <div class="sig-area" id="sigArea">
-        <canvas id="sigCanvas"></canvas>
-        <span class="sig-placeholder" id="sigPlaceholder">請在此處簽名 / Sign here</span>
+    <div class="form-grid" style="margin-bottom:1rem;">
+      <div class="form-group">
+        <label class="form-label">Print Name <span>請打印全名</span></label>
+        <input type="text" id="printname" placeholder="e.g. Amber Kuo" />
       </div>
-      <div class="sig-controls">
-        <button class="sig-clear" id="clearSig">清除 / Clear</button>
+      <div class="form-group">
+        <label class="form-label">Initial <span>縮寫簽名</span></label>
+        <input type="text" id="initial" placeholder="e.g. A.K." maxlength="10" />
       </div>
     </div>
 
@@ -459,7 +459,7 @@
 </div>
 
 <script>
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyMPJWyIBUm9dMUVZrRxPsbkze4ujqAT0fW7FpCXT4y8PYbCWhzpZDQKSZ7vcwNyca6zA/exec';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwHDhfd4jorzQe2i51CZ9LD8sg8awn2FfUsFcHHuB1hIHTmK0KM2gUAJv9TGIIN9eQxqw/exec';
 
 const nameEl = document.getElementById('name');
 const empidEl = document.getElementById('empid');
@@ -469,75 +469,11 @@ const ackdateEl = document.getElementById('ackdate');
 const confirmEl = document.getElementById('confirm');
 const confirmArea = document.getElementById('confirmArea');
 const submitBtn = document.getElementById('submitBtn');
-const sigArea = document.getElementById('sigArea');
-const sigCanvas = document.getElementById('sigCanvas');
-const sigPlaceholder = document.getElementById('sigPlaceholder');
-const clearSigBtn = document.getElementById('clearSig');
+const printnameEl = document.getElementById('printname');
+const initialEl = document.getElementById('initial');
 const errorMsg = document.getElementById('errorMsg');
 
 ackdateEl.value = new Date().toISOString().split('T')[0];
-
-const ctx = sigCanvas.getContext('2d');
-let drawing = false, hasSig = false;
-
-function resizeCanvas() {
-  const r = sigArea.getBoundingClientRect();
-  const img = ctx.getImageData(0, 0, sigCanvas.width, sigCanvas.height);
-  sigCanvas.width = r.width;
-  sigCanvas.height = r.height;
-  try { ctx.putImageData(img, 0, 0); } catch(e){}
-}
-setTimeout(resizeCanvas, 150);
-window.addEventListener('resize', resizeCanvas);
-
-function getPos(e) {
-  const r = sigCanvas.getBoundingClientRect();
-  const s = e.touches ? e.touches[0] : e;
-  return { x: s.clientX - r.left, y: s.clientY - r.top };
-}
-
-sigCanvas.addEventListener('mousedown', e => {
-  drawing = true;
-  const {x,y} = getPos(e);
-  ctx.beginPath(); ctx.moveTo(x,y);
-  ctx.strokeStyle = '#1A1916'; ctx.lineWidth = 1.8;
-  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-  sigArea.classList.add('active');
-});
-sigCanvas.addEventListener('mousemove', e => {
-  if (!drawing) return;
-  const {x,y} = getPos(e);
-  ctx.lineTo(x,y); ctx.stroke();
-  if (!hasSig) { hasSig = true; sigPlaceholder.style.opacity = '0'; }
-  checkReady();
-});
-sigCanvas.addEventListener('mouseup', () => { drawing = false; });
-sigCanvas.addEventListener('mouseleave', () => { drawing = false; });
-
-sigCanvas.addEventListener('touchstart', e => {
-  e.preventDefault(); drawing = true;
-  const {x,y} = getPos(e);
-  ctx.beginPath(); ctx.moveTo(x,y);
-  ctx.strokeStyle = '#1A1916'; ctx.lineWidth = 1.8;
-  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-  sigArea.classList.add('active');
-}, {passive:false});
-sigCanvas.addEventListener('touchmove', e => {
-  e.preventDefault(); if (!drawing) return;
-  const {x,y} = getPos(e);
-  ctx.lineTo(x,y); ctx.stroke();
-  if (!hasSig) { hasSig = true; sigPlaceholder.style.opacity = '0'; }
-  checkReady();
-}, {passive:false});
-sigCanvas.addEventListener('touchend', () => { drawing = false; });
-
-clearSigBtn.addEventListener('click', () => {
-  ctx.clearRect(0, 0, sigCanvas.width, sigCanvas.height);
-  hasSig = false;
-  sigPlaceholder.style.opacity = '1';
-  sigArea.classList.remove('active');
-  checkReady();
-});
 
 confirmEl.addEventListener('change', () => {
   confirmArea.classList.toggle('checked', confirmEl.checked);
@@ -545,10 +481,10 @@ confirmEl.addEventListener('change', () => {
 });
 
 function checkReady() {
-  const ok = nameEl.value.trim() && empidEl.value.trim() && deptEl.value.trim() && emptypeEl.value && ackdateEl.value && confirmEl.checked && hasSig;
+  const ok = nameEl.value.trim() && empidEl.value.trim() && deptEl.value.trim() && emptypeEl.value && ackdateEl.value && confirmEl.checked && printnameEl.value.trim() && initialEl.value.trim();
   submitBtn.disabled = !ok;
 }
-[nameEl, empidEl, deptEl, emptypeEl, ackdateEl].forEach(el => el.addEventListener('input', checkReady));
+[nameEl, empidEl, deptEl, emptypeEl, ackdateEl, printnameEl, initialEl].forEach(el => el.addEventListener('input', checkReady));
 
 submitBtn.addEventListener('click', () => {
   submitBtn.disabled = true;
@@ -562,27 +498,36 @@ submitBtn.addEventListener('click', () => {
     dept: deptEl.value.trim(),
     emptype: emptypeEl.value,
     ackdate: ackdateEl.value,
-    signature: sigCanvas.toDataURL('image/png')
+    printname: printnameEl.value.trim(),
+    initial: initialEl.value.trim()
   };
 
+  const cbName = 'cb_' + Date.now();
   const params = new URLSearchParams({
     name: payload.name,
     empid: payload.empid,
     dept: payload.dept,
     emptype: payload.emptype,
     ackdate: payload.ackdate,
-    signature: payload.signature
+    printname: payload.printname,
+    initial: payload.initial,
+    callback: cbName
   });
 
-  const img = new Image();
-  img.src = SHEET_URL + '?' + params.toString();
-  img.onload = img.onerror = () => {
+  function showSuccess() {
     document.getElementById('formCard').style.display = 'none';
     document.getElementById('successName').textContent = payload.name + '（' + payload.empid + '）— ' + payload.dept + ' · ' + payload.emptype;
     document.getElementById('successDept').textContent = '部門 / Dept：' + payload.dept;
     document.getElementById('successTs').textContent = '簽收日期 ' + payload.ackdate + '  ·  Safety Management & Incident SOP';
     document.getElementById('successCard').style.display = 'block';
-  };
+  }
+
+  window[cbName] = () => { showSuccess(); delete window[cbName]; script.remove(); };
+
+  const script = document.createElement('script');
+  script.src = SHEET_URL + '?' + params.toString();
+  script.onerror = showSuccess;
+  document.body.appendChild(script);
 });
 </script>
 </body>
