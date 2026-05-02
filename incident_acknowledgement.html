@@ -497,31 +497,25 @@ submitBtn.addEventListener('click', () => {
     initial: initialEl.value.trim()
   };
 
-  const cbName = 'cb_' + Date.now();
   const params = new URLSearchParams({
     name: payload.name,
     empid: payload.empid,
     dept: payload.dept,
     emptype: payload.emptype,
     ackdate: payload.ackdate,
-    printname: payload.printname,
-    callback: cbName
+    printname: payload.printname
   });
 
-  function showSuccess() {
+  fetch(SHEET_URL + '?' + params.toString(), { mode: 'no-cors' })
+    .catch(() => {});
+
+  setTimeout(() => {
     document.getElementById('formCard').style.display = 'none';
     document.getElementById('successName').textContent = payload.name + '（' + payload.empid + '）— ' + payload.dept + ' · ' + payload.emptype;
     document.getElementById('successDept').textContent = '部門 / Dept：' + payload.dept;
     document.getElementById('successTs').textContent = '簽收日期 ' + payload.ackdate + '  ·  Safety Management & Incident SOP';
     document.getElementById('successCard').style.display = 'block';
-  }
-
-  window[cbName] = () => { showSuccess(); delete window[cbName]; script.remove(); };
-
-  const script = document.createElement('script');
-  script.src = SHEET_URL + '?' + params.toString();
-  script.onerror = showSuccess;
-  document.body.appendChild(script);
+  }, 1500);
 });
 </script>
 </body>
