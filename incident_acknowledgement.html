@@ -506,16 +506,14 @@ submitBtn.addEventListener('click', () => {
     printname: payload.printname
   });
 
-  fetch(SHEET_URL + '?' + params.toString(), { mode: 'no-cors' })
-    .catch(() => {});
+  document.getElementById('formCard').style.display = 'none';
+  document.getElementById('successName').textContent = payload.name + '（' + payload.empid + '）— ' + payload.dept + ' · ' + payload.emptype;
+  document.getElementById('successDept').textContent = '部門 / Dept：' + payload.dept;
+  document.getElementById('successTs').textContent = '簽收日期 ' + payload.ackdate + '  ·  Safety Management & Incident SOP';
+  document.getElementById('successCard').style.display = 'block';
 
-  setTimeout(() => {
-    document.getElementById('formCard').style.display = 'none';
-    document.getElementById('successName').textContent = payload.name + '（' + payload.empid + '）— ' + payload.dept + ' · ' + payload.emptype;
-    document.getElementById('successDept').textContent = '部門 / Dept：' + payload.dept;
-    document.getElementById('successTs').textContent = '簽收日期 ' + payload.ackdate + '  ·  Safety Management & Incident SOP';
-    document.getElementById('successCard').style.display = 'block';
-  }, 1500);
+  const img = new Image();
+  img.src = SHEET_URL + '?' + params.toString();
 });
 </script>
 </body>
