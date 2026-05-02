@@ -550,7 +550,7 @@ function checkReady() {
 }
 [nameEl, empidEl, deptEl, emptypeEl, ackdateEl].forEach(el => el.addEventListener('input', checkReady));
 
-submitBtn.addEventListener('click', async () => {
+submitBtn.addEventListener('click', () => {
   submitBtn.disabled = true;
   submitBtn.classList.add('loading');
   submitBtn.textContent = '提交中... / Submitting...';
@@ -565,24 +565,32 @@ submitBtn.addEventListener('click', async () => {
     signature: sigCanvas.toDataURL('image/png')
   };
 
-  try {
-    await fetch(SHEET_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
+  const iframe = document.createElement('iframe');
+  iframe.name = 'hidden_iframe';
+  iframe.style.display = 'none';
+  document.body.appendChild(iframe);
+
+  const form = document.createElement('form');
+  form.method = 'POST';
+  form.action = SHEET_URL;
+  form.target = 'hidden_iframe';
+
+  const input = document.createElement('input');
+  input.type = 'hidden';
+  input.name = 'data';
+  input.value = JSON.stringify(payload);
+  form.appendChild(input);
+  document.body.appendChild(form);
+
+  setTimeout(() => {
     document.getElementById('formCard').style.display = 'none';
     document.getElementById('successName').textContent = payload.name + '（' + payload.empid + '）— ' + payload.dept + ' · ' + payload.emptype;
     document.getElementById('successDept').textContent = '部門 / Dept：' + payload.dept;
     document.getElementById('successTs').textContent = '簽收日期 ' + payload.ackdate + '  ·  Safety Management & Incident SOP';
     document.getElementById('successCard').style.display = 'block';
-  } catch(err) {
-    submitBtn.disabled = false;
-    submitBtn.classList.remove('loading');
-    submitBtn.textContent = '提交簽收 / Submit Acknowledgement';
-    errorMsg.style.display = 'block';
-  }
+  }, 2000);
+
+  form.submit();
 });
 </script>
 </body>
