@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Safety Management & Incident SOP — 簽收確認</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #F5F3EE;
+    --surface: #FFFFFF;
+    --border: #D8D4CC;
+    --border-light: #EAE7E0;
+    --text: #1A1916;
+    --text-secondary: #6B6860;
+    --text-tertiary: #A09D98;
+    --accent: #1C3F5E;
+    --accent-light: #E8EFF5;
+    --success: #1A5C3A;
+    --success-bg: #EAF5EE;
+    --warning-bg: #FDF6E3;
+    --warning-text: #7A5C00;
+    --danger: #8B2020;
+    --danger-bg: #FDF0F0;
+    --radius: 10px;
+    --radius-lg: 16px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    line-height: 1.6;
+  }
+
+  .page-wrap {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+
+  .logo-mark {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-tertiary);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .doc-ref {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-tertiary);
+    background: var(--border-light);
+    padding: 4px 10px;
+    border-radius: 100px;
+    letter-spacing: .04em;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .card-sm {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--warning-bg);
+    color: var(--warning-text);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 100px;
+    margin-bottom: 1rem;
+    letter-spacing: .04em;
+  }
+
+  .status-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  h1 {
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 300;
+  }
+
+  .meta-row {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border-light);
+    flex-wrap: wrap;
+  }
+
+  .meta-item { }
+  .meta-label { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--text-tertiary); font-family: 'DM Mono', monospace; display: block; margin-bottom: 2px; }
+  .meta-value { font-size: 13px; font-weight: 500; color: var(--text); }
+
+  .section-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--text-tertiary);
+    font-family: 'DM Mono', monospace;
+    margin-bottom: .75rem;
+  }
+
+  .provisions { list-style: none; }
+  .provisions li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-light);
+    display: flex;
+    gap: 12px;
+  }
+  .provisions li:last-child { border-bottom: none; padding-bottom: 0; }
+  .provisions li:first-child { padding-top: 0; }
+
+  .provision-dot {
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--border);
+    flex-shrink: 0;
+    margin-top: 8px;
+  }
+
+  .provision-zh { font-size: 13.5px; color: var(--text); display: block; }
+  .provision-en { font-size: 12px; color: var(--text-secondary); display: block; margin-top: 2px; font-weight: 300; }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  .form-group { display: flex; flex-direction: column; gap: 5px; }
+  .form-group.full { grid-column: 1 / -1; }
+
+  .form-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    font-family: 'DM Mono', monospace;
+  }
+  .form-label span { font-weight: 400; color: var(--text-tertiary); text-transform: none; letter-spacing: 0; font-family: 'DM Sans', sans-serif; font-size: 11px; display: block; }
+
+  input[type="text"], input[type="date"], select {
+    width: 100%;
+    padding: 9px 12px;
+    font-size: 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    transition: border-color .15s, box-shadow .15s;
+    appearance: none;
+  }
+  input:focus, select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(28,63,94,.1);
+    background: var(--surface);
+  }
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B6860' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+  }
+
+  .confirm-area {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    background: var(--bg);
+    margin-bottom: 14px;
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+  }
+  .confirm-area:hover { border-color: var(--accent); background: var(--accent-light); }
+  .confirm-area.checked { border-color: var(--accent); background: var(--accent-light); }
+
+  .confirm-check {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .confirm-check input[type="checkbox"] {
+    width: 18px; height: 18px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    cursor: pointer;
+    accent-color: var(--accent);
+  }
+  .confirm-text-zh { font-size: 13.5px; color: var(--text); line-height: 1.6; }
+  .confirm-text-en { font-size: 12px; color: var(--text-secondary); margin-top: 4px; font-weight: 300; line-height: 1.5; }
+
+  .sig-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 6px;
+    display: block;
+  }
+  .sig-label span { font-weight: 400; color: var(--text-tertiary); text-transform: none; letter-spacing: 0; font-family: 'DM Sans', sans-serif; font-size: 11px; display: inline; }
+
+  .sig-area {
+    border: 1.5px dashed var(--border);
+    border-radius: var(--radius);
+    height: 110px;
+    position: relative;
+    overflow: hidden;
+    background: var(--bg);
+    cursor: crosshair;
+    transition: border-color .15s;
+  }
+  .sig-area:hover { border-color: var(--text-secondary); }
+  .sig-area.active { border-color: var(--accent); }
+  .sig-area canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+  .sig-placeholder {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12px; color: var(--text-tertiary);
+    pointer-events: none;
+    transition: opacity .2s;
+    white-space: nowrap;
+  }
+  .sig-controls { margin-top: 6px; display: flex; justify-content: flex-end; }
+  .sig-clear {
+    font-size: 11px; color: var(--text-tertiary);
+    cursor: pointer; background: none; border: none;
+    font-family: 'DM Sans', sans-serif; padding: 0;
+    text-decoration: underline; text-underline-offset: 2px;
+  }
+  .sig-clear:hover { color: var(--text-secondary); }
+
+  .submit-btn {
+    width: 100%;
+    padding: 13px;
+    margin-top: 6px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: opacity .15s, transform .1s;
+    letter-spacing: .01em;
+  }
+  .submit-btn:hover:not(:disabled) { opacity: .9; }
+  .submit-btn:active:not(:disabled) { transform: scale(.99); }
+  .submit-btn:disabled { opacity: .3; cursor: not-allowed; background: var(--text-secondary); }
+  .submit-btn.loading { opacity: .6; cursor: wait; }
+
+  .error-msg {
+    display: none;
+    margin-top: 10px;
+    background: var(--danger-bg);
+    border: 1px solid #F5C2C2;
+    border-radius: var(--radius);
+    padding: .75rem 1rem;
+    font-size: 13px;
+    color: var(--danger);
+  }
+
+  .success-card {
+    display: none;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 3rem 2rem;
+    text-align: center;
+  }
+  .success-icon {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: var(--success-bg);
+    border: 1px solid #B0DCC0;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.25rem;
+  }
+  .success-icon svg { width: 22px; height: 22px; stroke: var(--success); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+  .success-card h2 { font-size: 18px; font-weight: 500; color: var(--success); margin-bottom: 6px; }
+  .success-card .detail { font-size: 14px; color: var(--text-secondary); margin-top: 4px; }
+  .success-card .ts { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-tertiary); margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-light); }
+
+  @media (max-width: 480px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .card { padding: 1.5rem; }
+    h1 { font-size: 18px; }
+    .meta-row { gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <div class="top-bar">
+    <div class="logo-mark">SONGMICS · Warehouse Ops</div>
+    <div class="doc-ref">Safety Management &amp; Incident SOP</div>
+  </div>
+
+  <div class="card">
+    <div class="status-pill"><span class="status-dot"></span> Requires Acknowledgement｜需要簽收</div>
+    <h1>Safety Management &amp; Incident SOP<br>安全管理與事故標準作業程序</h1>
+    <p class="subtitle">Acknowledgement of Receipt &amp; Understanding｜簽收確認通知</p>
+    <div class="meta-row">
+      <div class="meta-item"><span class="meta-label">Document</span><span class="meta-value">Safety Management &amp; Incident SOP</span></div>
+      <div class="meta-item"><span class="meta-label">Issued 發布</span><span class="meta-value">2025 / 05 / 01</span></div>
+      <div class="meta-item"><span class="meta-label">Deadline 截止</span><span class="meta-value">2025 / 05 / 15</span></div>
+    </div>
+  </div>
+
+  <div class="card-sm">
+    <p class="section-label">Key Provisions｜主要條款</p>
+    <ul class="provisions">
+      <li>
+        <div class="provision-dot"></div>
+        <div>
+          <span class="provision-zh">不扣基本薪資：所有事故均不涉及基本工資扣減</span>
+          <span class="provision-en">No wage deduction: base salary is not affected by any incident</span>
+        </div>
+      </li>
+      <li>
+        <div class="provision-dot"></div>
+        <div>
+          <span class="provision-zh">績效導向：自有員工影響年終安全係數；勞務人員影響供應商 KPI</span>
+          <span class="provision-en">Performance-based: incidents affect year-end bonus (direct) or agency KPI (staffing)</span>
+        </div>
+      </li>
+      <li>
+        <div class="provision-dot"></div>
+        <div>
+          <span class="provision-zh">遞進式處分：依嚴重程度與次數分級，所有違規均留存紀錄</span>
+          <span class="provision-en">Progressive discipline: tiered by severity and frequency; all violations documented</span>
+        </div>
+      </li>
+      <li>
+        <div class="provision-dot"></div>
+        <div>
+          <span class="provision-zh">必須留檔：所有事故完成 Incident Report 並存入 ADP 員工檔案</span>
+          <span class="provision-en">Documentation required: all incidents require a completed Incident Report on file</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="card" id="formCard">
+    <p class="section-label" style="margin-bottom:1.25rem;">Employee Information｜員工資料</p>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label class="form-label">姓名 <span>Full name</span></label>
+        <input type="text" id="name" placeholder="請輸入姓名" autocomplete="name" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">員工編號 <span>Employee ID</span></label>
+        <input type="text" id="empid" placeholder="e.g. EMP-0001" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">部門 <span>Department</span></label>
+        <input type="text" id="dept" placeholder="e.g. Inbound" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">工作地點 <span>Work Location</span></label>
+        <select id="emptype">
+          <option value="">— Select —</option>
+          <option value="NJ">NJ</option>
+          <option value="CA">CA</option>
+          <option value="GA">GA</option>
+        </select>
+      </div>
+      <div class="form-group full">
+        <label class="form-label">簽收日期 <span>Date of acknowledgement</span></label>
+        <input type="date" id="ackdate" />
+      </div>
+    </div>
+
+    <div class="confirm-area" id="confirmArea">
+      <label class="confirm-check">
+        <input type="checkbox" id="confirm" />
+        <div>
+          <div class="confirm-text-zh">本人確認已閱讀並理解《Safety Management & Incident SOP》之全部內容，並同意遵守其中所列各項規定。</div>
+          <div class="confirm-text-en">I confirm that I have read and understood the Safety Management & Incident SOP in full, and agree to comply with all provisions set forth therein.</div>
+        </div>
+      </label>
+    </div>
+
+    <div style="margin-bottom:1.25rem;">
+      <span class="sig-label">本人簽名 <span>/ Signature</span></span>
+      <div class="sig-area" id="sigArea">
+        <canvas id="sigCanvas"></canvas>
+        <span class="sig-placeholder" id="sigPlaceholder">請在此處簽名 / Sign here</span>
+      </div>
+      <div class="sig-controls">
+        <button class="sig-clear" id="clearSig">清除 / Clear</button>
+      </div>
+    </div>
+
+    <button class="submit-btn" id="submitBtn" disabled>提交簽收 / Submit Acknowledgement</button>
+    <div class="error-msg" id="errorMsg">提交失敗，請檢查網路連線後再試。/ Submission failed. Please check your connection and try again.</div>
+  </div>
+
+  <div class="success-card" id="successCard">
+    <div class="success-icon">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h2>簽收完成 / Acknowledgement Recorded</h2>
+    <p class="detail" id="successName"></p>
+    <p class="detail" id="successDept"></p>
+    <p class="ts" id="successTs"></p>
+  </div>
+
+  <p style="text-align:center;font-size:11px;color:var(--text-tertiary);margin-top:1.5rem;font-family:'DM Mono',monospace;">
+    SONGMICS · Warehouse Operations · Safety Management &amp; Incident SOP
+  </p>
+
+</div>
+
+<script>
+const SHEET_URL = 'https://script.google.com/a/macros/songmics.com/s/AKfycbzEsN_trrrttSPrfv1355K6PLFgZMvJ3SGFcNzlY9qNPWwxr63XJ3zrr6yn7LDhSA0DCQ/exec';
+
+const nameEl = document.getElementById('name');
+const empidEl = document.getElementById('empid');
+const deptEl = document.getElementById('dept');
+const emptypeEl = document.getElementById('emptype');
+const ackdateEl = document.getElementById('ackdate');
+const confirmEl = document.getElementById('confirm');
+const confirmArea = document.getElementById('confirmArea');
+const submitBtn = document.getElementById('submitBtn');
+const sigArea = document.getElementById('sigArea');
+const sigCanvas = document.getElementById('sigCanvas');
+const sigPlaceholder = document.getElementById('sigPlaceholder');
+const clearSigBtn = document.getElementById('clearSig');
+const errorMsg = document.getElementById('errorMsg');
+
+ackdateEl.value = new Date().toISOString().split('T')[0];
+
+const ctx = sigCanvas.getContext('2d');
+let drawing = false, hasSig = false;
+
+function resizeCanvas() {
+  const r = sigArea.getBoundingClientRect();
+  const img = ctx.getImageData(0, 0, sigCanvas.width, sigCanvas.height);
+  sigCanvas.width = r.width;
+  sigCanvas.height = r.height;
+  try { ctx.putImageData(img, 0, 0); } catch(e){}
+}
+setTimeout(resizeCanvas, 150);
+window.addEventListener('resize', resizeCanvas);
+
+function getPos(e) {
+  const r = sigCanvas.getBoundingClientRect();
+  const s = e.touches ? e.touches[0] : e;
+  return { x: s.clientX - r.left, y: s.clientY - r.top };
+}
+
+sigCanvas.addEventListener('mousedown', e => {
+  drawing = true;
+  const {x,y} = getPos(e);
+  ctx.beginPath(); ctx.moveTo(x,y);
+  ctx.strokeStyle = '#1A1916'; ctx.lineWidth = 1.8;
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  sigArea.classList.add('active');
+});
+sigCanvas.addEventListener('mousemove', e => {
+  if (!drawing) return;
+  const {x,y} = getPos(e);
+  ctx.lineTo(x,y); ctx.stroke();
+  if (!hasSig) { hasSig = true; sigPlaceholder.style.opacity = '0'; }
+  checkReady();
+});
+sigCanvas.addEventListener('mouseup', () => { drawing = false; });
+sigCanvas.addEventListener('mouseleave', () => { drawing = false; });
+
+sigCanvas.addEventListener('touchstart', e => {
+  e.preventDefault(); drawing = true;
+  const {x,y} = getPos(e);
+  ctx.beginPath(); ctx.moveTo(x,y);
+  ctx.strokeStyle = '#1A1916'; ctx.lineWidth = 1.8;
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  sigArea.classList.add('active');
+}, {passive:false});
+sigCanvas.addEventListener('touchmove', e => {
+  e.preventDefault(); if (!drawing) return;
+  const {x,y} = getPos(e);
+  ctx.lineTo(x,y); ctx.stroke();
+  if (!hasSig) { hasSig = true; sigPlaceholder.style.opacity = '0'; }
+  checkReady();
+}, {passive:false});
+sigCanvas.addEventListener('touchend', () => { drawing = false; });
+
+clearSigBtn.addEventListener('click', () => {
+  ctx.clearRect(0, 0, sigCanvas.width, sigCanvas.height);
+  hasSig = false;
+  sigPlaceholder.style.opacity = '1';
+  sigArea.classList.remove('active');
+  checkReady();
+});
+
+confirmEl.addEventListener('change', () => {
+  confirmArea.classList.toggle('checked', confirmEl.checked);
+  checkReady();
+});
+
+function checkReady() {
+  const ok = nameEl.value.trim() && empidEl.value.trim() && deptEl.value.trim() && emptypeEl.value && ackdateEl.value && confirmEl.checked && hasSig;
+  submitBtn.disabled = !ok;
+}
+[nameEl, empidEl, deptEl, emptypeEl, ackdateEl].forEach(el => el.addEventListener('input', checkReady));
+
+submitBtn.addEventListener('click', async () => {
+  submitBtn.disabled = true;
+  submitBtn.classList.add('loading');
+  submitBtn.textContent = '提交中... / Submitting...';
+  errorMsg.style.display = 'none';
+
+  const payload = {
+    name: nameEl.value.trim(),
+    empid: empidEl.value.trim(),
+    dept: deptEl.value.trim(),
+    emptype: emptypeEl.value,
+    ackdate: ackdateEl.value,
+    signature: sigCanvas.toDataURL('image/png')
+  };
+
+  try {
+    await fetch(SHEET_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    document.getElementById('formCard').style.display = 'none';
+    document.getElementById('successName').textContent = payload.name + '（' + payload.empid + '）— ' + payload.dept + ' · ' + payload.emptype;
+    document.getElementById('successDept').textContent = '部門 / Dept：' + payload.dept;
+    document.getElementById('successTs').textContent = '簽收日期 ' + payload.ackdate + '  ·  Safety Management & Incident SOP';
+    document.getElementById('successCard').style.display = 'block';
+  } catch(err) {
+    submitBtn.disabled = false;
+    submitBtn.classList.remove('loading');
+    submitBtn.textContent = '提交簽收 / Submit Acknowledgement';
+    errorMsg.style.display = 'block';
+  }
+});
+</script>
+</body>
+</html>
