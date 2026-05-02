@@ -427,14 +427,10 @@
       </label>
     </div>
 
-    <div class="form-grid" style="margin-bottom:1rem;">
+    <div style="margin-bottom:1rem;">
       <div class="form-group">
         <label class="form-label">Print Name <span>請打印全名</span></label>
         <input type="text" id="printname" placeholder="e.g. Amber Kuo" />
-      </div>
-      <div class="form-group">
-        <label class="form-label">Initial <span>縮寫簽名</span></label>
-        <input type="text" id="initial" placeholder="e.g. A.K." maxlength="10" />
       </div>
     </div>
 
@@ -459,7 +455,7 @@
 </div>
 
 <script>
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwHDhfd4jorzQe2i51CZ9LD8sg8awn2FfUsFcHHuB1hIHTmK0KM2gUAJv9TGIIN9eQxqw/exec';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycby8dYJNRTi1Vd5ob91e2cbbYhILUUVBIhXFTrZmUxFCSSr04fUiYWK7RHYUZk4FSeb1oQ/exec';
 
 const nameEl = document.getElementById('name');
 const empidEl = document.getElementById('empid');
@@ -470,7 +466,6 @@ const confirmEl = document.getElementById('confirm');
 const confirmArea = document.getElementById('confirmArea');
 const submitBtn = document.getElementById('submitBtn');
 const printnameEl = document.getElementById('printname');
-const initialEl = document.getElementById('initial');
 const errorMsg = document.getElementById('errorMsg');
 
 ackdateEl.value = new Date().toISOString().split('T')[0];
@@ -481,10 +476,10 @@ confirmEl.addEventListener('change', () => {
 });
 
 function checkReady() {
-  const ok = nameEl.value.trim() && empidEl.value.trim() && deptEl.value.trim() && emptypeEl.value && ackdateEl.value && confirmEl.checked && printnameEl.value.trim() && initialEl.value.trim();
+  const ok = nameEl.value.trim() && empidEl.value.trim() && deptEl.value.trim() && emptypeEl.value && ackdateEl.value && confirmEl.checked && printnameEl.value.trim();
   submitBtn.disabled = !ok;
 }
-[nameEl, empidEl, deptEl, emptypeEl, ackdateEl, printnameEl, initialEl].forEach(el => el.addEventListener('input', checkReady));
+[nameEl, empidEl, deptEl, emptypeEl, ackdateEl, printnameEl].forEach(el => el.addEventListener('input', checkReady));
 
 submitBtn.addEventListener('click', () => {
   submitBtn.disabled = true;
@@ -510,7 +505,6 @@ submitBtn.addEventListener('click', () => {
     emptype: payload.emptype,
     ackdate: payload.ackdate,
     printname: payload.printname,
-    initial: payload.initial,
     callback: cbName
   });
 
