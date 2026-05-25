@@ -615,7 +615,7 @@ body {
 const params = new URLSearchParams(window.location.search);
 const periodStart = params.get('start') || '';
 const periodEnd   = params.get('end')   || '';
-const scriptURL   = 'https://script.google.com/macros/s/AKfycbyOcY2SQeg1O7h3o04qINh44mnCx5GJoP_7PXqMvEeU5gcwTCTS7KcvluQziIlgBWB-/exec';
+const scriptURL = 'https://script.google.com/macros/s/AKfycbzT4FANEidrEWJYEfJiTSINxpGMCiGMx2XNrQBXvUrv8ljgmWi9dnyZBFg_96Cxio2Z/exec';
 
 // ── Display pay period in header
 function formatDate(d) {
@@ -710,7 +710,7 @@ function submitForm() {
     submit_time  : submitTime,
     chk_hours    : document.getElementById('chk1').checked ? 'Yes' : 'No',
     chk_early    : document.getElementById('chk2').checked ? 'Yes' : 'No',
-    chk_meal     : document.getElementById('chk3').checked ? 'Yes' : 'No',
+    chk_meal     : 'N/A',
     chk_policy   : document.getElementById('chk4').checked ? 'Yes' : 'No',
   };
 
