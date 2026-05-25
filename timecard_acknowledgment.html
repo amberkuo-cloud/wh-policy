@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pay Period Acknowledgment — Ameziel Inc</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:   #0B1F3A;
+  --blue:   #1A4B8C;
+  --accent: #2B6CB0;
+  --light:  #EBF2FB;
+  --border: #C8D8EC;
+  --text:   #1A2840;
+  --muted:  #5A718A;
+  --white:  #FFFFFF;
+  --warn:   #B45309;
+  --warnbg: #FFFBEB;
+  --warnbd: #FCD34D;
+  --ok:     #15803D;
+  --okbg:   #F0FDF4;
+  --okbd:   #86EFAC;
+  --err:    #B91C1C;
+  --errbg:  #FEF2F2;
+  --errbd:  #FECACA;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: #F4F7FB;
+  font-family: 'IBM Plex Sans', sans-serif;
+  color: var(--text);
+  min-height: 100vh;
+  padding: 0 0 60px;
+}
+
+/* ── HEADER BANNER ── */
+.banner {
+  background: var(--navy);
+  padding: 20px 24px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.banner-logo {
+  width: 38px; height: 38px;
+  background: var(--accent);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 500;
+  font-size: 13px;
+  color: #fff;
+  letter-spacing: -0.5px;
+  flex-shrink: 0;
+}
+.banner-text { flex: 1; }
+.banner-company {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #7FAFD4;
+  margin-bottom: 2px;
+}
+.banner-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.2;
+}
+
+/* ── MAIN CARD ── */
+.container {
+  max-width: 640px;
+  margin: 32px auto 0;
+  padding: 0 16px;
+}
+
+.card {
+  background: var(--white);
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(11,31,58,.06);
+}
+
+.card-header {
+  background: var(--light);
+  border-bottom: 1px solid var(--border);
+  padding: 20px 28px;
+}
+.card-header-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-family: 'IBM Plex Mono', monospace;
+  margin-bottom: 6px;
+}
+.card-header-period {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--navy);
+  font-family: 'IBM Plex Mono', monospace;
+}
+.card-header-sub {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+.card-body { padding: 28px; }
+
+/* ── NOTICE BOXES ── */
+.notice {
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  border-left: 4px solid;
+  font-size: 13.5px;
+  line-height: 1.65;
+}
+.notice-warn {
+  background: var(--warnbg);
+  border-color: var(--warn);
+  color: #78350F;
+}
+.notice-info {
+  background: #EFF6FF;
+  border-color: var(--accent);
+  color: #1E3A5F;
+}
+.notice-title {
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.notice p { margin-top: 4px; }
+
+/* ── POLICY ITEMS ── */
+.policy-list {
+  margin: 20px 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.policy-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--border);
+  background: var(--white);
+}
+.policy-item:last-child { border-bottom: none; }
+.policy-icon {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  background: var(--light);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.policy-text { flex: 1; }
+.policy-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 3px;
+}
+.policy-desc {
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ── CHECKBOX SECTION ── */
+.confirm-section {
+  margin: 22px 0;
+}
+.confirm-title {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 13px 0;
+  border-bottom: 1px solid #F0F4F9;
+  cursor: pointer;
+  transition: background .15s;
+}
+.check-item:last-child { border-bottom: none; }
+.check-item input[type="checkbox"] {
+  appearance: none;
+  width: 18px; height: 18px;
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-top: 1px;
+  transition: all .15s;
+  background: var(--white);
+  position: relative;
+}
+.check-item input[type="checkbox"]:checked {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.check-item input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  left: 3px; top: 0px;
+  width: 9px; height: 6px;
+  border-left: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  transform: rotate(-45deg);
+}
+.check-label {
+  font-size: 13.5px;
+  color: var(--text);
+  line-height: 1.6;
+  cursor: pointer;
+}
+.check-label strong { color: var(--navy); }
+
+/* ── DIVIDER ── */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 24px 0;
+}
+
+/* ── FORM FIELDS ── */
+.field-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.field-group.full { grid-template-columns: 1fr; }
+
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field-label {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.field-label span {
+  color: #E53E3E;
+  margin-left: 2px;
+}
+.field input, .field select {
+  height: 42px;
+  border: 1.5px solid var(--border);
+  border-radius: 7px;
+  padding: 0 13px;
+  font-size: 14px;
+  font-family: 'IBM Plex Sans', sans-serif;
+  color: var(--text);
+  background: var(--white);
+  transition: border-color .15s, box-shadow .15s;
+  outline: none;
+}
+.field input:focus, .field select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(43,108,176,.12);
+}
+.field input::placeholder { color: #A8BCCD; }
+
+/* ── SIGNATURE BLOCK ── */
+.sig-block {
+  background: #F8FAFD;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 6px;
+}
+.sig-block-title {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+.sig-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+/* ── SUBMIT BUTTON ── */
+.submit-btn {
+  width: 100%;
+  height: 48px;
+  background: var(--navy);
+  color: #fff;
+  border: none;
+  border-radius: 9px;
+  font-size: 14.5px;
+  font-weight: 600;
+  font-family: 'IBM Plex Sans', sans-serif;
+  cursor: pointer;
+  margin-top: 22px;
+  letter-spacing: 0.02em;
+  transition: background .2s, transform .1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.submit-btn:hover:not(:disabled) { background: var(--blue); }
+.submit-btn:active:not(:disabled) { transform: scale(0.99); }
+.submit-btn:disabled { background: #9DB2C7; cursor: not-allowed; }
+.submit-btn .spinner {
+  width: 16px; height: 16px;
+  border: 2px solid rgba(255,255,255,.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  display: none;
+}
+.submit-btn.loading .spinner { display: block; }
+.submit-btn.loading .btn-text { display: none; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── ERROR / SUCCESS STATES ── */
+.alert {
+  border-radius: 8px;
+  padding: 14px 16px;
+  font-size: 13.5px;
+  margin-top: 14px;
+  display: none;
+  line-height: 1.6;
+  border-left: 4px solid;
+}
+.alert.show { display: block; }
+.alert-error { background: var(--errbg); border-color: var(--err); color: #7F1D1D; }
+.alert-success { background: var(--okbg); border-color: var(--ok); color: #14532D; }
+
+/* ── SUCCESS SCREEN ── */
+#successScreen {
+  display: none;
+  text-align: center;
+  padding: 48px 28px;
+}
+#successScreen.show { display: block; }
+.success-icon {
+  width: 64px; height: 64px;
+  background: var(--okbg);
+  border: 2px solid var(--okbd);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px;
+  margin: 0 auto 20px;
+}
+.success-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+.success-sub {
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 360px;
+  margin: 0 auto;
+}
+.success-badge {
+  display: inline-block;
+  background: var(--light);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--accent);
+  margin-top: 18px;
+}
+
+/* ── FOOTER ── */
+.footer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 11.5px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+/* ── VALIDATION HIGHLIGHT ── */
+.field input.invalid, .field select.invalid {
+  border-color: var(--err);
+  background: #FFF8F8;
+}
+.error-msg {
+  font-size: 11px;
+  color: var(--err);
+  display: none;
+}
+.error-msg.show { display: block; }
+.check-item.invalid .check-label { color: var(--err); }
+.check-item.invalid input[type="checkbox"] { border-color: var(--err); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 480px) {
+  .field-group { grid-template-columns: 1fr; }
+  .sig-row { grid-template-columns: 1fr; }
+  .card-body { padding: 20px 18px; }
+  .card-header { padding: 16px 18px; }
+}
+</style>
+</head>
+<body>
+
+<!-- BANNER -->
+<div class="banner">
+  <div class="banner-logo">AMZ</div>
+  <div class="banner-text">
+    <div class="banner-company">Ameziel Inc · Human Resources</div>
+    <div class="banner-title">Pay Period Timecard Acknowledgment</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="container">
+  <div class="card">
+
+    <!-- Card Header: Pay Period Info (populated from URL params) -->
+    <div class="card-header">
+      <div class="card-header-label">Pay Period</div>
+      <div class="card-header-period" id="periodDisplay">— / — / —  ·  — / — / —</div>
+      <div class="card-header-sub" id="periodSub">請確認以下工時資訊</div>
+    </div>
+
+    <!-- Form Section -->
+    <div class="card-body">
+
+      <!-- Form (hidden after success) -->
+      <div id="formSection">
+
+        <!-- Info Notice -->
+        <div class="notice notice-info">
+          <div class="notice-title">📋 說明 / Notice</div>
+          <p>請閱讀以下公司制度說明，確認並簽名。提交記錄將存檔備查，作為您已知悉本政策之證明。
+          <br>Please read the following company policies carefully. Your submission will be recorded and kept on file as documentation that you have been informed of these policies.</p>
+        </div>
+
+        <!-- Policy Items -->
+        <div class="policy-list">
+          <div class="policy-item">
+            <div class="policy-icon">🕐</div>
+            <div class="policy-text">
+              <div class="policy-title">提早打卡不等於可以提早開始工作 / Clocking In Early Does Not Mean You May Start Work Early</div>
+              <div class="policy-desc">
+                Employees are welcome to clock in early. However, <strong>beginning work before your scheduled start time requires supervisor and HR to be informed</strong>. If we are not notified, hours worked before the scheduled start time will be adjusted back to the scheduled start time. If you need to start early for any reason, please make sure to notify your supervisor and HR so it can be properly authorized and recorded. Violations may result in disciplinary action, <strong>up to and including termination</strong>.<br>
+                <span style="color:var(--navy)">員工可以提前打卡，但<strong>提前開始工作必須通知主管及HR</strong>。若未收到通知，排班時間前的工時將被調整回正常排班時間。如有需要提前開始工作，請記得告知主管和HR，以便正式授權並記錄在案。違反此規定可能導致紀律處分，<strong>最高包括解僱</strong>。</span>
+              </div>
+            </div>
+          </div>
+          <div class="policy-item">
+            <div class="policy-icon">🍽️</div>
+            <div class="policy-text">
+              <div class="policy-title">用餐時間規定 / Meal Break Policy</div>
+              <div class="policy-desc">
+                <strong>California employees:</strong> Under California law, all employees must take an uninterrupted, off-duty 30-minute meal break before completing 5 hours of work. This is a legal requirement.<br>
+                <strong>New Jersey &amp; Georgia employees:</strong> For a regular 8-hour shift, employees should take a 30-minute unpaid meal break. Please plan work schedules accordingly to ensure employees are fully relieved from duty during the meal break.<br><br>
+                For all locations: <strong>Meal breaks must not be interrupted for any work-related reason.</strong> If your meal break is delayed or interrupted, you are required to notify HR. Any concerns regarding your timecard should also be directed to HR.<br>
+                <span style="color:var(--navy)"><strong>加州員工：</strong>依加州法律，所有員工必須在工作滿5小時前，完整使用30分鐘的非值班用餐時間，此為法律強制規定。<br>
+                <strong>新澤西及喬治亞州員工：</strong>正常8小時班，員工應安排30分鐘不帶薪用餐休息。請依現場工作情況合理安排，確保員工在用餐期間完全停止工作。<br>
+                
+                所有地點適用：<strong>用餐時間不得因任何工作原因被打斷。</strong>如用餐時間遭到延誤或打斷，請立即通知HR。如有任何工時記錄疑問，亦請聯繫HR。</span>
+              </div>
+            </div>
+          </div>
+          <div class="policy-item">
+            <div class="policy-icon">📋</div>
+            <div class="policy-text">
+              <div class="policy-title">工時記錄必須正確 / Timecard Accuracy is Required</div>
+              <div class="policy-desc">
+                All employees are required to ensure their timecard accurately reflects actual hours worked. If you notice any discrepancy, please contact HR promptly. <strong>Falsifying or tampering with time records is strictly prohibited and may result in disciplinary action, up to and including immediate termination.</strong><br>
+                <span style="color:var(--navy)">所有員工必須確保打卡記錄如實反映實際工作時數。如發現任何出入，請盡快聯繫HR。<strong>偽造或竄改打卡記錄嚴格禁止，可能導致紀律處分，最高包括立即解僱。</strong></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Warning Notice -->
+        <div class="notice notice-warn">
+          <div class="notice-title">⚠️ 提醒 / Please Note</div>
+          <p>These policies are in place to ensure that all employees are treated fairly and that the company remains compliant. If any of the above situations arise — including starting work early without approval or a meal break being interrupted — <strong>please report it to your supervisor and HR promptly</strong>.</p>
+          <p style="margin-top:8px">以上規定的目的是確保所有員工受到公平對待，並維護公司的合規運作。如發生任何上述情況——包括未經批准提前開始工作或用餐時間被打斷——<strong>請及時告知主管及HR</strong>。</p>
+        </div>
+
+        <!-- Checkboxes -->
+        <div class="confirm-section">
+          <div class="confirm-title">請勾選確認以下所有事項 / Please Confirm All Items Below <span style="color:#E53E3E">*</span></div>
+
+          <label class="check-item" id="chk1-wrap">
+            <input type="checkbox" id="chk1">
+            <span class="check-label">此計薪期間的工時記錄我已確認，沒有問題。<br><span style="color:var(--muted)">I have reviewed my timecard for this pay period and confirm it is accurate.</span></span>
+          </label>
+
+          <label class="check-item" id="chk2-wrap">
+            <input type="checkbox" id="chk2">
+            <span class="check-label">此計薪期間如有提前開始工作的情況，我已通知主管及HR。若未通知，我了解相關工時將被調整回排班時間。<br><span style="color:var(--muted)">If I started work before my scheduled time this pay period, I have notified my supervisor and HR. I understand that if no notification was given, those hours will be adjusted back to my scheduled start time.</span></span>
+          </label>
+
+
+          <label class="check-item" id="chk4-wrap">
+            <input type="checkbox" id="chk4">
+            <span class="check-label">我已閱讀並了解以上所有規定，承諾日後遵守，並在有任何違規情況時主動告知主管及HR。<br><span style="color:var(--muted)">I have read and understood all policies above and commit to complying going forward. I will notify my supervisor and HR of any violations.</span></span>
+          </label>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Employee Info -->
+        <div class="confirm-title" style="margin-bottom:14px">員工資訊 / Employee Information <span style="color:#E53E3E">*</span></div>
+
+        <div class="field-group">
+          <div class="field">
+            <label class="field-label" for="empName">Full Name / 姓名<span>*</span></label>
+            <input type="text" id="empName" placeholder="First Last" autocomplete="name">
+            <span class="error-msg" id="err-empName">Required</span>
+          </div>
+          <div class="field">
+            <label class="field-label" for="dept">Location / 工作地點<span>*</span></label>
+            <select id="dept">
+              <option value="">— Select —</option>
+              <option value="CA">CA</option>
+              <option value="NJ">NJ</option>
+              <option value="GA">GA</option>
+            </select>
+            <span class="error-msg" id="err-dept">Required</span>
+          </div>
+        </div>
+
+        <!-- Signature Block -->
+        <div class="sig-block">
+          <div class="sig-block-title">Electronic Signature / 電子簽名</div>
+          <div class="field" style="margin-bottom:14px">
+            <label class="field-label" for="printName">Print Full Name / 簽名<span>*</span></label>
+            <input type="text" id="printName" placeholder="Your full name">
+            <span class="error-msg" id="err-printName">Required</span>
+          </div>
+          <div class="field">
+            <label class="field-label" for="initials">手機號碼後四碼 / Last 4 Digits of Phone Number<span>*</span></label>
+            <input type="text" id="initials" placeholder="e.g. 1234" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" style="max-width:160px">
+            <span class="error-msg" id="err-initials">請輸入4位數字 / Must be 4 digits</span>
+          </div>
+          <div style="font-size:11.5px; color:var(--muted); margin-top:12px; line-height:1.6; padding: 10px 12px; background:#EBF2FB; border-radius:6px;">
+            By entering your name and the last 4 digits of your phone number, you confirm that you have read and agree to comply with all policies stated on this form.<br>
+            <span style="color:var(--navy)">填寫姓名及手機後四碼即為您的電子確認，代表您已閱讀並同意遵守本表單所列之所有規定。</span>
+          </div>
+        </div>
+
+        <!-- Alerts -->
+        <div class="alert alert-error" id="alertError"></div>
+        <div class="alert alert-success" id="alertSuccess"></div>
+
+        <!-- Submit -->
+        <button class="submit-btn" id="submitBtn" onclick="submitForm()">
+          <span class="btn-text">Submit Acknowledgment / 提交確認</span>
+          <div class="spinner"></div>
+        </button>
+
+      </div><!-- /formSection -->
+
+      <!-- Success Screen -->
+      <div id="successScreen">
+        <div class="success-icon">✓</div>
+        <div class="success-title">Acknowledgment Submitted</div>
+        <div class="success-sub">
+          Your timecard acknowledgment has been recorded. Thank you.<br>
+          您的工時確認已成功提交，謝謝。
+        </div>
+        <div class="success-badge" id="successBadge">—</div>
+        <div style="margin-top:20px; font-size:12px; color:var(--muted)">
+          Please keep this confirmation for your records.<br>請保存此確認記錄。
+        </div>
+      </div>
+
+    </div><!-- /card-body -->
+  </div><!-- /card -->
+
+  <div class="footer">
+    Ameziel Inc · Human Resources Department<br>
+    Questions? Contact HR · This form is confidential and for internal use only.
+  </div>
+</div>
+
+<script>
+// ── Read URL params (HR fills these in before sending the link)
+const params = new URLSearchParams(window.location.search);
+const periodStart = params.get('start') || '';
+const periodEnd   = params.get('end')   || '';
+const scriptURL   = 'https://script.google.com/macros/s/AKfycbyOcY2SQeg1O7h3o04qINh44mnCx5GJoP_7PXqMvEeU5gcwTCTS7KcvluQziIlgBWB-/exec';
+
+// ── Display pay period in header
+function formatDate(d) {
+  if (!d) return '—';
+  // Accepts YYYY-MM-DD or MM/DD/YYYY
+  const parts = d.includes('-') ? d.split('-') : d.split('/');
+  if (parts.length === 3) {
+    if (d.includes('-')) return `${parts[1]}/${parts[2]}/${parts[0]}`;
+    return d;
+  }
+  return d;
+}
+
+if (periodStart || periodEnd) {
+  document.getElementById('periodDisplay').textContent =
+    `${formatDate(periodStart)}  –  ${formatDate(periodEnd)}`;
+  document.getElementById('periodSub').textContent =
+    'Please confirm your timecard for the above pay period.  /  請確認以上計薪期間的工時記錄。';
+}
+
+// ── Validate
+function validate() {
+  let ok = true;
+
+  const checks = ['chk1','chk2','chk4'];
+  checks.forEach(id => {
+    const el = document.getElementById(id);
+    const wrap = document.getElementById(id + '-wrap');
+    if (!el.checked) {
+      wrap.classList.add('invalid');
+      ok = false;
+    } else {
+      wrap.classList.remove('invalid');
+    }
+  });
+
+  const fields = [
+    { id: 'empName',   label: 'err-empName'   },
+    { id: 'dept',      label: 'err-dept'      },
+    { id: 'printName', label: 'err-printName' },
+    { id: 'initials',  label: 'err-initials', extra: 'phone4' },
+  ];
+
+  fields.forEach(f => {
+    const el  = document.getElementById(f.id);
+    const err = document.getElementById(f.label);
+    const val = el.value.trim();
+    const isEmpty = !val;
+    const isInvalidPhone = f.extra === 'phone4' && !/^[0-9]{4}$/.test(val);
+    if (isEmpty || isInvalidPhone) {
+      el.classList.add('invalid');
+      err.classList.add('show');
+      ok = false;
+    } else {
+      el.classList.remove('invalid');
+      err.classList.remove('show');
+    }
+  });
+
+  return ok;
+}
+
+// ── Submit via JSONP (avoids CORS)
+let jsonpCallbackName = '';
+
+function submitForm() {
+  document.getElementById('alertError').classList.remove('show');
+  document.getElementById('alertSuccess').classList.remove('show');
+
+  if (!validate()) {
+    document.getElementById('alertError').textContent =
+      'Please complete all required fields and check all confirmation boxes.  /  請填寫所有必填欄位並勾選所有確認項目。';
+    document.getElementById('alertError').classList.add('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.classList.add('loading');
+
+  const now = new Date();
+  const submitTime = now.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' });
+
+  const payload = {
+    period_start : periodStart,
+    period_end   : periodEnd,
+    emp_name     : document.getElementById('empName').value.trim(),
+    dept         : document.getElementById('dept').value,
+    print_name   : document.getElementById('printName').value.trim(),
+    initials     : document.getElementById('initials').value.trim(),
+    submit_time  : submitTime,
+    chk_hours    : document.getElementById('chk1').checked ? 'Yes' : 'No',
+    chk_early    : document.getElementById('chk2').checked ? 'Yes' : 'No',
+    chk_meal     : document.getElementById('chk3').checked ? 'Yes' : 'No',
+    chk_policy   : document.getElementById('chk4').checked ? 'Yes' : 'No',
+  };
+
+  // JSONP
+  jsonpCallbackName = 'cb_' + Date.now();
+  window[jsonpCallbackName] = function(res) {
+    // cleanup
+    delete window[jsonpCallbackName];
+    const s = document.getElementById('jsonpScript');
+    if (s) s.remove();
+
+    btn.disabled = false;
+    btn.classList.remove('loading');
+
+    if (res && res.success) {
+      document.getElementById('formSection').style.display = 'none';
+      const ss = document.getElementById('successScreen');
+      ss.classList.add('show');
+      document.getElementById('successBadge').textContent =
+        `${payload.emp_name}  ·  ${formatDate(periodStart)} – ${formatDate(periodEnd)}`;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      document.getElementById('alertError').textContent =
+        'Submission failed. Please try again or contact HR.  /  提交失敗，請再試一次或聯繫HR。';
+      document.getElementById('alertError').classList.add('show');
+    }
+  };
+
+  // Timeout fallback
+  setTimeout(function() {
+    if (window[jsonpCallbackName]) {
+      delete window[jsonpCallbackName];
+      btn.disabled = false;
+      btn.classList.remove('loading');
+      document.getElementById('alertError').textContent =
+        'Request timed out. Please check your connection and try again.  /  請求逾時，請確認網路連線後重試。';
+      document.getElementById('alertError').classList.add('show');
+    }
+  }, 10000);
+
+  const qp = new URLSearchParams(Object.assign({ callback: jsonpCallbackName }, payload));
+  const script = document.createElement('script');
+  script.id = 'jsonpScript';
+  script.src = scriptURL + '?' + qp.toString();
+  document.body.appendChild(script);
+}
+
+// Remove invalid state on input
+document.querySelectorAll('input, select').forEach(el => {
+  el.addEventListener('input', () => {
+    el.classList.remove('invalid');
+    const errEl = document.getElementById('err-' + el.id);
+    if (errEl) errEl.classList.remove('show');
+  });
+});
+document.querySelectorAll('input[type="checkbox"]').forEach(el => {
+  el.addEventListener('change', () => {
+    document.getElementById(el.id + '-wrap')?.classList.remove('invalid');
+  });
+});
+</script>
+</body>
+</html>
