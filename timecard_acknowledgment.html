@@ -74,9 +74,9 @@ body {
 
 /* ── MAIN CARD ── */
 .container {
-  max-width: 640px;
+  max-width: 980px;
   margin: 32px auto 0;
-  padding: 0 16px;
+  padding: 0 24px;
 }
 
 .card {
@@ -113,7 +113,7 @@ body {
   margin-top: 4px;
 }
 
-.card-body { padding: 28px; }
+.card-body { padding: 34px 38px; }
 
 /* ── NOTICE BOXES ── */
 .notice {
@@ -152,6 +152,13 @@ body {
   border: 1px solid var(--border);
   border-radius: 10px;
   overflow: hidden;
+  display: block;
+  width: 100%;
+}
+
+.policy-list > .policy-item {
+  width: 100%;
+  display: flex;
 }
 .policy-item {
   display: flex;
@@ -423,11 +430,13 @@ body {
 .check-item.invalid input[type="checkbox"] { border-color: var(--err); }
 
 /* ── RESPONSIVE ── */
-@media (max-width: 480px) {
+@media (max-width: 700px) {
+  .container { padding: 0 12px; margin-top: 20px; }
   .field-group { grid-template-columns: 1fr; }
   .sig-row { grid-template-columns: 1fr; }
   .card-body { padding: 20px 18px; }
   .card-header { padding: 16px 18px; }
+  .policy-item { padding: 14px 14px; gap: 10px; }
 }
 </style>
 </head>
@@ -475,6 +484,7 @@ body {
               <div class="policy-desc">
                 Employees are welcome to clock in early. However, <strong>you may not begin performing any work before your scheduled start time unless authorized by your supervisor</strong>. All employees must accurately record and report all time actually worked. The Company will pay all hours worked as required by applicable law. Unauthorized early work may result in disciplinary action, <strong>up to and including termination</strong>.<br>
                 <span style="color:var(--navy)">員工可以提前打卡，但<strong>未經主管授權，不得在排班開始時間前開始任何工作</strong>。所有員工必須如實記錄並申報所有實際工作時間。公司將依適用法律支付所有實際工作時間的薪資。未經授權提前工作的行為可能導致紀律處分，<strong>最高包括解僱</strong>。</span>
+              </div>
             </div>
           </div>
           <div class="policy-item">
@@ -523,7 +533,7 @@ body {
           <label class="check-item" id="chk2-wrap">
             <input type="checkbox" id="chk2">
             <span class="check-label">此計薪期間如有在排班時間前實際開始工作的情況，我已如實申報所有實際工作時間，並了解未經授權提前工作可能導致紀律處分。<br><span style="color:var(--muted)">If I performed any work before my scheduled start time during this pay period, I have accurately reported all actual time worked. I understand that unauthorized early work may result in disciplinary action.</span></span>
-
+          </label>
 
           <label class="check-item" id="chk4-wrap">
             <input type="checkbox" id="chk4">
